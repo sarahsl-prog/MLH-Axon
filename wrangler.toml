@@ -1,0 +1,25 @@
+name = "axon"
+main = "src/worker.py"
+compatibility_date = "2024-04-01"
+compatibility_flags = ["python_workers"]
+
+[[durable_objects.bindings]]
+name = "TRAFFIC_MONITOR"
+class_name = "TrafficMonitor"
+script_name = "axon"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["TrafficMonitor"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "axon-db"
+database_id = "your-db-id-here"
+
+[ai]
+binding = "AI"
+
+# Serve the dashboard
+[[routes]]
+pattern = "axon.yourdomain.workers.dev/*"

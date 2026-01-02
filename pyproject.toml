@@ -1,0 +1,27 @@
+[project]
+name = "axon"
+version = "0.1.0"
+description = "AI-powered bot detection at the edge"
+
+[tool.pywrangler]
+name = "axon"
+main = "src/worker.py"
+compatibility_date = "2024-04-01"
+compatibility_flags = ["python_workers"]
+
+[tool.pywrangler.durable_objects]
+bindings = [
+    { name = "TRAFFIC_MONITOR", class_name = "TrafficMonitor", script_name = "axon" }
+]
+
+[tool.pywrangler.d1_databases]
+bindings = [
+    { binding = "DB", database_name = "axon-db", database_id = "your-db-id" }
+]
+
+[tool.pywrangler.ai]
+binding = "AI"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

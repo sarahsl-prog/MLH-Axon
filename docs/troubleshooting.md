@@ -1,38 +1,46 @@
-TROUBLESHOOTING GUIDE
+# Troubleshooting Guide
 
 Common issues and solutions for Axon deployment and operation.
 
-INSTALLATION ISSUES
+## Installation Issues
 
-Problem: "command not found: pywrangler"
+### Problem: "command not found: pywrangler"
 
-Solution:
+**Solution:**
+
+```bash
 pip install pywrangler
 # Or if you're using a virtual environment:
 source venv/bin/activate
 pip install pywrangler
+```
 
+### Problem: "command not found: wrangler"
 
-Problem: "command not found: wrangler"
+**Solution:**
 
-Solution:
+```bash
 npm install -g wrangler@latest
 # If permission error on Linux/Mac:
 sudo npm install -g wrangler@latest
+```
 
+### Problem: "Module not found: cloudflare.workers"
 
-Problem: "Module not found: cloudflare.workers"
+**Solution:**
 
-Solution:
+```bash
 # Don't use regular wrangler dev, use:
 uv run pywrangler dev
 # Or:
 wrangler dev --compatibility-flags python_workers
+```
 
+### Problem: "Python version not supported"
 
-Problem: "Python version not supported"
+**Solution:**
 
-Solution:
+```bash
 # Check Python version (need 3.11+)
 python --version
 
@@ -41,279 +49,327 @@ python --version
 sudo apt install python3.11
 # On Mac:
 brew install python@3.11
+```
 
+## Database Issues
 
-DATABASE ISSUES
+### Problem: "Database not found" or "database_id is required"
 
-Problem: "Database not found" or "database_id is required"
+**Solution:**
 
-Solution:
 1. Create the database:
+   ```bash
    wrangler d1 create axon-db
+   ```
 
 2. Copy the database_id from output
 
-3. Update wrangler.toml:
+3. Update `wrangler.toml`:
+   ```toml
    [[d1_databases]]
    binding = "DB"
    database_name = "axon-db"
    database_id = "paste-id-here"
+   ```
 
 4. Apply schema:
+   ```bash
    wrangler d1 execute axon-db --file=schema.sql
+   ```
 
+### Problem: "table traffic already exists"
 
-Problem: "table traffic already exists"
+**Solution:**
 
-Solution:
+```bash
 # Drop and recreate (WARNING: deletes all data)
 wrangler d1 execute axon-db --command="DROP TABLE IF EXISTS traffic;"
 wrangler d1 execute axon-db --file=schema.sql
 
 # Or skip if table exists:
 # Edit schema.sql to use CREATE TABLE IF NOT EXISTS
+```
 
+### Problem: D1 queries timing out
 
-Problem: D1 queries timing out
+**Solution:**
 
-Solution:
 1. Check if database is over capacity
 2. Add indexes if missing:
+   ```sql
    CREATE INDEX idx_timestamp ON traffic(timestamp);
    CREATE INDEX idx_prediction ON traffic(prediction);
-
+   ```
 3. Optimize queries (use LIMIT)
 4. Consider data retention/cleanup
 
+### Problem: "Error executing SQL"
 
-Problem: "Error executing SQL"
+**Solution:**
 
-Solution:
+```bash
 # Test query locally first:
 wrangler d1 execute axon-db --local --command="SELECT 1;"
 
 # Check syntax in schema.sql
 # Make sure no trailing semicolons in multi-line commands
+```
 
+## Deployment Issues
 
-DEPLOYMENT ISSUES
+### Problem: "Worker exceeds size limit"
 
-Problem: "Worker exceeds size limit"
+**Solution:**
 
-Solution:
 1. Remove unnecessary dependencies
 2. Use external packages via imports
 3. Split into multiple Workers if needed
-4. Check wrangler.toml for unused bindings
+4. Check `wrangler.toml` for unused bindings
 
+### Problem: "Deployment failed: authentication required"
 
-Problem: "Deployment failed: authentication required"
+**Solution:**
 
-Solution:
+```bash
 # Login to Cloudflare:
 wrangler login
 
 # Or use API token:
 export CLOUDFLARE_API_TOKEN=your-token
 wrangler deploy
+```
 
+### Problem: "Durable Object class not found"
 
-Problem: "Durable Object class not found"
+**Solution:**
 
-Solution:
-1. Check wrangler.toml has correct binding:
+1. Check `wrangler.toml` has correct binding:
+   ```toml
    [[durable_objects.bindings]]
    name = "TRAFFIC_MONITOR"
    class_name = "TrafficMonitor"
    script_name = "axon"
+   ```
 
 2. Check migrations section exists:
+   ```toml
    [[migrations]]
    tag = "v1"
    new_classes = ["TrafficMonitor"]
+   ```
 
-3. Make sure class is exported in traffic_monitor.py
+3. Make sure class is exported in `traffic_monitor.py`
 
+### Problem: "Cannot read property 'TRAFFIC_MONITOR' of undefined"
 
-Problem: "Cannot read property 'TRAFFIC_MONITOR' of undefined"
+**Solution:**
 
-Solution:
+```python
 # In worker.py, access via env parameter:
 async def on_fetch(request, env):
     do_id = env.TRAFFIC_MONITOR.idFromName("global")
     # NOT: TRAFFIC_MONITOR.idFromName("global")
+```
 
+## WebSocket Issues
 
-WEBSOCKET ISSUES
+### Problem: "WebSocket connection failed"
 
-Problem: "WebSocket connection failed"
+**Solution:**
 
-Solution:
-1. Check URL uses wss:// not ws:// in production
+1. Check URL uses `wss://` not `ws://` in production
 2. Verify Worker is deployed and accessible
 3. Check CORS settings if dashboard is on different domain
 4. Test with wscat:
+   ```bash
    wscat -c wss://axon.your-subdomain.workers.dev/ws
+   ```
 
+### Problem: "Connection established but no messages received"
 
-Problem: "Connection established but no messages received"
+**Solution:**
 
-Solution:
 1. Check if honeypot is receiving traffic:
+   ```bash
    curl https://axon.your-subdomain.workers.dev/test
+   ```
 
 2. Check Worker logs:
+   ```bash
    wrangler tail
+   ```
 
-3. Verify broadcast() is being called in honeypot.py
+3. Verify `broadcast()` is being called in `honeypot.py`
 
 4. Check Durable Object is processing messages
 
+### Problem: "WebSocket closes immediately"
 
-Problem: "WebSocket closes immediately"
+**Solution:**
 
-Solution:
 1. Check browser console for errors
-2. Verify Durable Object fetch() returns 101 status
-3. Check for exceptions in webSocketMessage handler
+2. Verify Durable Object `fetch()` returns 101 status
+3. Check for exceptions in `webSocketMessage` handler
 4. Verify WebSocketPair is created correctly
 
+### Problem: "Too many WebSocket connections"
 
-Problem: "Too many WebSocket connections"
+**Solution:**
 
-Solution:
+```python
 # Limit connections per IP in Durable Object:
 class TrafficMonitor:
     def __init__(self, state, env):
         self.sessions = {}  # Use dict instead of list
         self.ip_count = defaultdict(int)
-    
+
     async def fetch(self, request):
         ip = request.headers.get('CF-Connecting-IP')
         if self.ip_count[ip] >= 10:
             return Response("Too many connections", status=429)
         # ... rest of code
+```
 
+## Runtime Errors
 
-RUNTIME ERRORS
+### Problem: "TypeError: 'NoneType' object is not iterable"
 
-Problem: "TypeError: 'NoneType' object is not iterable"
+**Solution:**
 
-Solution:
+```python
 # Check for None values before iterating
 if my_list is not None:
     for item in my_list:
         # ...
+```
 
+### Problem: "AttributeError: 'module' object has no attribute"
 
-Problem: "AttributeError: 'module' object has no attribute"
+**Solution:**
 
-Solution:
+```python
 # Check imports:
 from features import get_request_entropy  # Correct
 # NOT: from features import features.get_request_entropy
+```
 
+### Problem: "JSON decode error"
 
-Problem: "JSON decode error"
+**Solution:**
 
-Solution:
+```python
 # Wrap JSON parsing in try/catch:
 try:
     data = json.loads(message)
 except json.JSONDecodeError as e:
     print(f"Invalid JSON: {e}")
     return
+```
 
+### Problem: "Event loop already running"
 
-Problem: "Event loop already running"
+**Solution:**
 
-Solution:
+```python
 # Use await instead of asyncio.run() in Workers:
 # WRONG:
 asyncio.run(some_async_function())
 
 # RIGHT:
 await some_async_function()
+```
 
+## Performance Issues
 
-PERFORMANCE ISSUES
+### Problem: "Worker CPU time limit exceeded"
 
-Problem: "Worker CPU time limit exceeded"
+**Solution:**
 
-Solution:
 1. Optimize expensive operations
 2. Use async operations to avoid blocking
 3. Cache frequently accessed data
 4. Consider moving heavy work to separate Worker
 
+### Problem: "Durable Object duration charges are high"
 
-Problem: "Durable Object duration charges are high"
+**Solution:**
 
-Solution:
 1. Use WebSocket Hibernation API
 2. Batch operations instead of processing individually
 3. Clean up idle connections more aggressively
 4. Consider sharding across multiple Durable Objects
 
+### Problem: "Slow database queries"
 
-Problem: "Slow database queries"
+**Solution:**
 
-Solution:
 1. Add indexes:
+   ```sql
    CREATE INDEX idx_your_column ON traffic(your_column);
+   ```
 
 2. Use LIMIT on queries:
+   ```sql
    SELECT * FROM traffic LIMIT 100;
+   ```
 
-3. Avoid SELECT * (specify columns)
+3. Avoid `SELECT *` (specify columns)
 
 4. Use prepared statements (already doing this)
 
+### Problem: "High latency from ML model"
 
-Problem: "High latency from ML model"
+**Solution:**
 
-Solution:
 1. Cache predictions for identical requests
 2. Use simpler model (fewer features)
 3. Consider client-side prediction for some cases
 4. Batch inference requests
 
+## ML Model Issues
 
-ML MODEL ISSUES
+### Problem: "Model not found" when calling Workers AI
 
-Problem: "Model not found" when calling Workers AI
+**Solution:**
 
-Solution:
 1. Verify model is uploaded:
+   ```bash
    wrangler ai models list
+   ```
 
 2. Check model name matches in code:
+   ```python
    await env.AI.run('@cf/your-account/axon-classifier', ...)
+   ```
 
 3. Re-upload if necessary:
+   ```bash
    wrangler ai models upload axon_model.onnx --name axon-classifier
+   ```
 
+### Problem: "Invalid input shape" error
 
-Problem: "Invalid input shape" error
+**Solution:**
 
-Solution:
+```python
 # Ensure feature vector matches training:
 # Check feature_names.txt for correct order
 # Count should match model input size
+```
 
+### Problem: "Model inference taking too long"
 
-Problem: "Model inference taking too long"
+**Solution:**
 
-Solution:
 1. Reduce model complexity
 2. Use fewer features (feature selection)
 3. Consider caching predictions
 4. Use heuristics for obvious cases, ML for ambiguous
 
+### Problem: "Poor model accuracy"
 
-Problem: "Poor model accuracy"
+**Solution:**
 
-Solution:
 1. Collect more training data
 2. Balance attack/legit samples
 3. Add more relevant features
@@ -321,106 +377,122 @@ Solution:
 5. Tune hyperparameters
 6. Check for data leakage
 
+## Dashboard Issues
 
-DASHBOARD ISSUES
+### Problem: "Dashboard shows 'Disconnected'"
 
-Problem: "Dashboard shows 'Disconnected'"
+**Solution:**
 
-Solution:
-1. Check WebSocket URL in dashboard.html
+1. Check WebSocket URL in `dashboard.html`
 2. Verify Worker is deployed
 3. Check browser console for errors
 4. Test WebSocket with wscat
 
+### Problem: "Stats not updating"
 
-Problem: "Stats not updating"
+**Solution:**
 
-Solution:
 1. Check if traffic is being logged:
+   ```bash
    wrangler d1 execute axon-db --command="SELECT COUNT(*) FROM traffic;"
+   ```
 
-2. Verify broadcast() is being called
+2. Verify `broadcast()` is being called
 
 3. Check browser console for JavaScript errors
 
 4. Test WebSocket connection separately
 
+### Problem: "Charts not rendering"
 
-Problem: "Charts not rendering"
+**Solution:**
 
-Solution:
 1. Check if Chart.js is loaded:
+   ```html
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   ```
 
 2. Verify canvas element exists:
+   ```html
    <canvas id="myChart"></canvas>
+   ```
 
 3. Check browser console for errors
 
+### Problem: "Feed showing old data"
 
-Problem: "Feed showing old data"
+**Solution:**
 
-Solution:
-# Clear feed periodically in JavaScript:
+```javascript
+// Clear feed periodically in JavaScript:
 setInterval(() => {
     const feed = document.getElementById('feed');
     while (feed.children.length > 50) {
         feed.removeChild(feed.lastChild);
     }
 }, 10000);  // Every 10 seconds
+```
 
+## Cloudflare-Specific Issues
 
-CLOUDFLARE-SPECIFIC ISSUES
+### Problem: "Rate limit exceeded" during deployment
 
-Problem: "Rate limit exceeded" during deployment
+**Solution:**
 
-Solution:
+```bash
 # Wait a few minutes and try again
 # Or upgrade to paid plan for higher limits
+```
 
+### Problem: "Worker not updating after deployment"
 
-Problem: "Worker not updating after deployment"
+**Solution:**
 
-Solution:
 1. Clear Cloudflare cache
 2. Wait a few seconds for propagation
 3. Hard refresh browser (Ctrl+Shift+R)
 4. Check deployment succeeded:
+   ```bash
    wrangler deployments list
+   ```
 
+### Problem: "Domain not resolving"
 
-Problem: "Domain not resolving"
+**Solution:**
 
-Solution:
 1. Check DNS settings in Cloudflare dashboard
 2. Wait for DNS propagation (can take up to 24 hours)
 3. Test with dig or nslookup:
+   ```bash
    dig axon.yourdomain.com
+   ```
 
+### Problem: "SSL certificate error"
 
-Problem: "SSL certificate error"
+**Solution:**
 
-Solution:
-# Usually auto-resolved, but if persistent:
+Usually auto-resolved, but if persistent:
+
 1. Check SSL/TLS settings (should be "Full" or "Full (strict)")
 2. Wait for certificate provisioning
 3. Contact Cloudflare support if issue persists
 
+## Debugging Tips
 
-DEBUGGING TIPS
+### Enable Verbose Logging
 
-Enable Verbose Logging
-
+```python
 # In your Python code:
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
 # Or use print statements:
 print(f"Debug: {variable_name}")
+```
 
+### View Real-time Logs
 
-View Real-time Logs
-
+```bash
 # Stream logs:
 wrangler tail
 
@@ -429,79 +501,78 @@ wrangler tail | grep "ERROR"
 
 # Save to file:
 wrangler tail > logs.txt
+```
 
+### Test Locally First
 
-Test Locally First
-
+```bash
 # Always test locally before deploying:
 uv run pywrangler dev
 
 # This catches most issues before production
+```
 
-
-Use Browser DevTools
+### Use Browser DevTools
 
 1. Open DevTools (F12)
 2. Check Console tab for errors
 3. Check Network tab for failed requests
 4. Check WebSocket frame for messages
 
-
-Check Cloudflare Dashboard
+### Check Cloudflare Dashboard
 
 1. Go to Workers & Pages
 2. Check metrics for errors
 3. View real-time analytics
 4. Check resource usage
 
+## Common Error Messages
 
-COMMON ERROR MESSAGES
-
-"Error 1101: Worker threw JavaScript exception"
-- Check Worker logs with: wrangler tail
+**"Error 1101: Worker threw JavaScript exception"**
+- Check Worker logs with: `wrangler tail`
 - Look for syntax errors or unhandled exceptions
 
-"Error 1102: Worker exceeded CPU time limit"
+**"Error 1102: Worker exceeded CPU time limit"**
 - Optimize your code
 - Move heavy operations to async
 - Consider using a separate Worker
 
-"Error 1015: You are being rate limited"
+**"Error 1015: You are being rate limited"**
 - Implement rate limiting in your Worker
 - Contact Cloudflare if legitimate traffic
 
-"Error 1020: Access denied"
+**"Error 1020: Access denied"**
 - Check Cloudflare security settings
 - Verify IP is not blocked
 
-"Error 520: Unknown error"
+**"Error 520: Unknown error"**
 - Check Worker is deployed correctly
 - Verify no runtime errors
 - Check logs for details
 
-
-GETTING HELP
+## Getting Help
 
 If you're still stuck:
 
-1. Check documentation:
-   - Cloudflare Workers docs: https://developers.cloudflare.com/workers/
-   - Python Workers docs: https://developers.cloudflare.com/workers/languages/python/
+1. **Check documentation:**
+   - [Cloudflare Workers docs](https://developers.cloudflare.com/workers/)
+   - [Python Workers docs](https://developers.cloudflare.com/workers/languages/python/)
 
-2. Check logs:
+2. **Check logs:**
+   ```bash
    wrangler tail --name axon
+   ```
 
-3. Search Cloudflare Community:
-   https://community.cloudflare.com/
+3. **Search Cloudflare Community:**
+   [https://community.cloudflare.com/](https://community.cloudflare.com/)
 
-4. Ask in Discord:
-   https://discord.gg/cloudflaredev
+4. **Ask in Discord:**
+   [https://discord.gg/cloudflaredev](https://discord.gg/cloudflaredev)
 
-5. File an issue:
-   https://github.com/yourusername/axon/issues
+5. **File an issue:**
+   [https://github.com/yourusername/axon/issues](https://github.com/yourusername/axon/issues)
 
-
-PREVENTIVE MEASURES
+## Preventive Measures
 
 To avoid common issues:
 
@@ -514,21 +585,26 @@ To avoid common issues:
 7. Load testing before scaling
 8. Security reviews periodically
 
-
-EMERGENCY PROCEDURES
+## Emergency Procedures
 
 If Axon goes down in production:
 
-1. Check Cloudflare status: https://www.cloudflarestatus.com/
+1. Check Cloudflare status: [https://www.cloudflarestatus.com/](https://www.cloudflarestatus.com/)
 
 2. Roll back to previous version:
+   ```bash
    wrangler rollback
+   ```
 
 3. Check logs for errors:
+   ```bash
    wrangler tail --status error
+   ```
 
 4. Disable Worker temporarily if needed:
+   ```bash
    # Remove routes in wrangler.toml
    # Deploy with no routes
+   ```
 
 5. Contact Cloudflare support if infrastructure issue

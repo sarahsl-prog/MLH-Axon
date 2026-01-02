@@ -1,93 +1,115 @@
-API REFERENCE
+# API Reference
 
 This document describes all API endpoints, WebSocket protocol, and data formats used by Axon.
 
-REST API ENDPOINTS
+## REST API Endpoints
 
-Base URL: https://axon.your-subdomain.workers.dev
+**Base URL:** `https://axon.your-subdomain.workers.dev`
 
-1. Honeypot Endpoint
+### 1. Honeypot Endpoint
 
+```
 GET|POST|PUT|DELETE /*
-Description: Catch-all endpoint that logs and classifies all traffic
-Authentication: None (it's a honeypot)
-Rate Limit: None (we want to see all attacks)
+```
 
-Request:
+- **Description:** Catch-all endpoint that logs and classifies all traffic
+- **Authentication:** None (it's a honeypot)
+- **Rate Limit:** None (we want to see all attacks)
+
+**Request:**
 - Any HTTP method
 - Any path
 - Any headers
 - Any body
 
-Response:
-- Status: 200 OK
-- Body: "OK"
+**Response:**
+- Status: `200 OK`
+- Body: `"OK"`
 - Purpose: Boring response to not tip off attackers
 
-Example:
+**Example:**
 
+```bash
 curl -X GET https://axon.your-subdomain.workers.dev/admin
-Response: OK
+# Response: OK
+```
 
+### 2. Dashboard Endpoint
 
-2. Dashboard Endpoint
-
+```
 GET /dashboard
-Description: Serves the dashboard HTML
-Authentication: Optional (configure in production)
-Rate Limit: None
+```
 
-Response:
-- Status: 200 OK
-- Content-Type: text/html
+- **Description:** Serves the dashboard HTML
+- **Authentication:** Optional (configure in production)
+- **Rate Limit:** None
+
+**Response:**
+- Status: `200 OK`
+- Content-Type: `text/html`
 - Body: Dashboard HTML
 
-Example:
+**Example:**
 
+```bash
 curl https://axon.your-subdomain.workers.dev/dashboard
+```
 
+### 3. WebSocket Endpoint
 
-3. WebSocket Endpoint
-
+```
 GET /ws
-Description: Upgrades to WebSocket for real-time updates
-Protocol: WebSocket
-Authentication: Optional
+```
 
-Connection:
+- **Description:** Upgrades to WebSocket for real-time updates
+- **Protocol:** WebSocket
+- **Authentication:** Optional
 
+**Connection:**
+
+```javascript
 const ws = new WebSocket('wss://axon.your-subdomain.workers.dev/ws');
+```
 
-Connection Headers:
-- Upgrade: websocket
-- Connection: Upgrade
-- Sec-WebSocket-Version: 13
-- Sec-WebSocket-Key: <random>
+**Connection Headers:**
+- `Upgrade: websocket`
+- `Connection: Upgrade`
+- `Sec-WebSocket-Version: 13`
+- `Sec-WebSocket-Key: <random>`
 
+### 4. Health Check (Optional)
 
-4. Health Check (Optional)
-
+```
 GET /health
-Description: Simple health check endpoint
-Authentication: None
-Rate Limit: None
+```
 
-Response:
+- **Description:** Simple health check endpoint
+- **Authentication:** None
+- **Rate Limit:** None
+
+**Response:**
+
+```json
 {
     "status": "ok",
     "timestamp": 1704153600000,
     "version": "1.0.0"
 }
+```
 
+### 5. Stats API (Optional)
 
-5. Stats API (Optional)
-
+```
 GET /api/stats
-Description: Get aggregate statistics
-Authentication: Required
-Rate Limit: 100 requests/hour
+```
 
-Response:
+- **Description:** Get aggregate statistics
+- **Authentication:** Required
+- **Rate Limit:** 100 requests/hour
+
+**Response:**
+
+```json
 {
     "total_requests": 150000,
     "attacks_blocked": 45000,
@@ -100,27 +122,27 @@ Response:
         {"type": "wp_login", "count": 6000}
     ]
 }
+```
 
+## WebSocket Protocol
 
-WEBSOCKET PROTOCOL
-
-Connection Lifecycle
+### Connection Lifecycle
 
 1. Client initiates WebSocket connection
 2. Server accepts and adds to session list
 3. Server broadcasts classification events to all clients
 4. Client can send commands (optional)
-5. Connection closed -> cleanup
+5. Connection closed → cleanup
 
-
-Message Format
+### Message Format
 
 All messages are JSON strings.
 
-Server -> Client Messages
+#### Server → Client Messages
 
-Classification Event:
+**Classification Event:**
 
+```json
 {
     "type": "classification",
     "timestamp": 1704153600000,
@@ -133,76 +155,89 @@ Classification Event:
     "confidence": 0.95,
     "bot_score": 10
 }
+```
 
-Connection Confirmation:
+**Connection Confirmation:**
 
+```json
 {
     "type": "connected",
     "timestamp": 1704153600000,
     "session_id": "abc123"
 }
+```
 
-Error Message:
+**Error Message:**
 
+```json
 {
     "type": "error",
     "message": "Internal server error",
     "code": 500
 }
+```
 
+#### Client → Server Messages (Optional)
 
-Client -> Server Messages (Optional)
+**Ping:**
 
-Ping:
-
+```json
 {
     "type": "ping"
 }
+```
 
-Response:
+**Response:**
+
+```json
 {
     "type": "pong",
     "timestamp": 1704153600000
 }
+```
 
+**Get Statistics:**
 
-Get Statistics:
-
+```json
 {
     "type": "get_stats"
 }
+```
 
-Response:
+**Response:**
+
+```json
 {
     "type": "stats",
     "total_requests": 150000,
     "attacks_blocked": 45000,
     "requests_per_min": 42
 }
+```
 
+**Filter Events:**
 
-Filter Events:
-
+```json
 {
     "type": "filter",
     "prediction": "attack"  // or "legit" or "all"
 }
+```
 
+### WebSocket Error Codes
 
-WebSocket Error Codes
+- `1000` - Normal closure
+- `1001` - Going away (e.g., browser tab closed)
+- `1002` - Protocol error
+- `1003` - Unsupported data
+- `1008` - Policy violation (e.g., rate limit)
+- `1011` - Internal server error
 
-1000 - Normal closure
-1001 - Going away (e.g., browser tab closed)
-1002 - Protocol error
-1003 - Unsupported data
-1008 - Policy violation (e.g., rate limit)
-1011 - Internal server error
+## Data Formats
 
+### Classification Object
 
-DATA FORMATS
-
-Classification Object
-
+```json
 {
     "timestamp": 1704153600000,           // Unix timestamp (ms)
     "path": "/admin/login",              // Request path
@@ -219,12 +254,13 @@ Classification Object
         "has_sql_pattern": false
     }
 }
+```
 
-
-Feature Vector
+### Feature Vector
 
 When calling the ML model:
 
+```json
 {
     "path_length": 25,
     "path_entropy": 3.2,
@@ -245,43 +281,42 @@ When calling the ML model:
     "bot_score": 10,
     "high_risk_country": 1
 }
+```
 
+### Database Schema
 
-Database Schema
+**`traffic` table:**
 
-traffic table:
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | `INTEGER` | Primary key (auto-increment) |
+| `timestamp` | `INTEGER` | Unix timestamp (ms) |
+| `path` | `TEXT` | Request path |
+| `method` | `TEXT` | HTTP method |
+| `ip` | `TEXT` | Client IP address |
+| `country` | `TEXT` | ISO country code |
+| `user_agent` | `TEXT` | User-Agent header |
+| `prediction` | `TEXT` | "attack" or "legit" |
+| `confidence` | `REAL` | 0.0 to 1.0 |
+| `bot_score` | `INTEGER` | Cloudflare bot score (0-100) |
+| `created_at` | `DATETIME` | ISO timestamp |
 
-Column          Type        Description
---------------  ----------  ---------------------------
-id              INTEGER     Primary key (auto-increment)
-timestamp       INTEGER     Unix timestamp (ms)
-path            TEXT        Request path
-method          TEXT        HTTP method
-ip              TEXT        Client IP address
-country         TEXT        ISO country code
-user_agent      TEXT        User-Agent header
-prediction      TEXT        "attack" or "legit"
-confidence      REAL        0.0 to 1.0
-bot_score       INTEGER     Cloudflare bot score (0-100)
-created_at      DATETIME    ISO timestamp
+## Response Codes
 
+### Standard HTTP Status Codes
 
-RESPONSE CODES
+- `200 OK` - Request successful
+- `400 Bad Request` - Invalid request format
+- `401 Unauthorized` - Authentication required
+- `403 Forbidden` - Access denied
+- `404 Not Found` - Endpoint doesn't exist
+- `429 Too Many Requests` - Rate limit exceeded
+- `500 Internal Server Error` - Server error
+- `503 Service Unavailable` - Temporary outage
 
-Standard HTTP Status Codes
+### Custom Error Responses
 
-200 OK - Request successful
-400 Bad Request - Invalid request format
-401 Unauthorized - Authentication required
-403 Forbidden - Access denied
-404 Not Found - Endpoint doesn't exist
-429 Too Many Requests - Rate limit exceeded
-500 Internal Server Error - Server error
-503 Service Unavailable - Temporary outage
-
-
-Custom Error Responses
-
+```json
 {
     "error": {
         "code": "RATE_LIMIT_EXCEEDED",
@@ -289,77 +324,94 @@ Custom Error Responses
         "retry_after": 60
     }
 }
+```
 
+## Authentication
 
-AUTHENTICATION
+### Bearer Token (if enabled)
 
-Bearer Token (if enabled)
+**Request:**
 
-Request:
-
+```bash
 GET /api/stats
 Authorization: Bearer your-token-here
+```
 
-Response if invalid:
+**Response if invalid:**
 
+```http
 401 Unauthorized
+```
+
+```json
 {
     "error": {
         "code": "INVALID_TOKEN",
         "message": "Invalid or expired token"
     }
 }
+```
 
+## API Versioning
 
-API VERSIONING
+**Current Version:** v1
 
-Current Version: v1
-
-Base URL includes version:
+**Base URL includes version:**
+```
 https://axon.your-subdomain.workers.dev/api/v1/
+```
 
-Future versions will use:
+**Future versions will use:**
+```
 https://axon.your-subdomain.workers.dev/api/v2/
+```
 
+## Rate Limits
 
-RATE LIMITS
+### Default Limits
 
-Default Limits:
+- **Honeypot endpoints:** None (unlimited)
+- **WebSocket connections:** 100 per IP
+- **API endpoints:** 100 requests/hour per IP
+- **Dashboard:** 1000 requests/hour per IP
 
-- Honeypot endpoints: None (unlimited)
-- WebSocket connections: 100 per IP
-- API endpoints: 100 requests/hour per IP
-- Dashboard: 1000 requests/hour per IP
+### Rate Limit Headers
 
-Rate Limit Headers:
-
+```
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1704153600
+```
 
+**When rate limited:**
 
-When rate limited:
-
+```http
 429 Too Many Requests
 Retry-After: 60
+```
+
+```json
 {
     "error": {
         "code": "RATE_LIMIT_EXCEEDED",
         "message": "Rate limit exceeded. Try again in 60 seconds."
     }
 }
+```
 
-
-PAGINATION
+## Pagination
 
 For endpoints that return lists:
 
-Request:
+**Request:**
 
+```bash
 GET /api/traffic?page=1&limit=100
+```
 
-Response:
+**Response:**
 
+```json
 {
     "data": [...],
     "pagination": {
@@ -369,44 +421,50 @@ Response:
         "pages": 150
     }
 }
+```
 
+## Filtering
 
-FILTERING
+**Filter query parameters:**
 
-Filter query parameters:
-
+```bash
 GET /api/traffic?prediction=attack&country=CN&from=2024-01-01&to=2024-01-31
+```
 
-Supported filters:
-- prediction: "attack" or "legit"
-- country: ISO country code
-- method: HTTP method
-- from: Start date (YYYY-MM-DD)
-- to: End date (YYYY-MM-DD)
-- ip: Client IP address
+**Supported filters:**
+- `prediction`: "attack" or "legit"
+- `country`: ISO country code
+- `method`: HTTP method
+- `from`: Start date (YYYY-MM-DD)
+- `to`: End date (YYYY-MM-DD)
+- `ip`: Client IP address
 
+## Sorting
 
-SORTING
+**Sort query parameters:**
 
-Sort query parameters:
-
+```bash
 GET /api/traffic?sort=timestamp&order=desc
+```
 
-Supported sort fields:
-- timestamp (default)
-- confidence
-- bot_score
+**Supported sort fields:**
+- `timestamp` (default)
+- `confidence`
+- `bot_score`
 
-Supported orders:
-- desc (default)
-- asc
+**Supported orders:**
+- `desc` (default)
+- `asc`
 
+## Webhooks (Future)
 
-WEBHOOKS (Future)
+**Register webhook for events:**
 
-Register webhook for events:
-
+```bash
 POST /api/webhooks
+```
+
+```json
 {
     "url": "https://your-server.com/webhook",
     "events": ["attack_detected", "high_confidence"],
@@ -414,10 +472,15 @@ POST /api/webhooks
         "confidence": ">0.9"
     }
 }
+```
 
-Webhook payload:
+**Webhook payload:**
 
+```bash
 POST https://your-server.com/webhook
+```
+
+```json
 {
     "event": "attack_detected",
     "timestamp": 1704153600000,
@@ -425,12 +488,13 @@ POST https://your-server.com/webhook
         // Classification object
     }
 }
+```
 
+## Client Libraries
 
-CLIENT LIBRARIES
+### JavaScript/Node.js
 
-JavaScript/Node.js
-
+```javascript
 // WebSocket client
 const ws = new WebSocket('wss://axon.your-subdomain.workers.dev/ws');
 
@@ -442,17 +506,18 @@ ws.onmessage = (event) => {
 ws.onerror = (error) => {
     console.error('WebSocket error:', error);
 };
+```
 
+### Python
 
-Python
-
+```python
 import asyncio
 import websockets
 import json
 
 async def connect():
     uri = "wss://axon.your-subdomain.workers.dev/ws"
-    
+
     async with websockets.connect(uri) as websocket:
         while True:
             message = await websocket.recv()
@@ -460,36 +525,45 @@ async def connect():
             print(f"Classification: {data}")
 
 asyncio.run(connect())
+```
 
+### cURL
 
-cURL
-
+```bash
 # Send test traffic
 curl -X GET https://axon.your-subdomain.workers.dev/admin
 
 # Get stats
 curl -H "Authorization: Bearer token" \
   https://axon.your-subdomain.workers.dev/api/stats
+```
 
+## Examples
 
-EXAMPLES
+### Example 1: Monitor live traffic
 
-Example 1: Monitor live traffic
-
+```javascript
 const ws = new WebSocket('wss://axon.your-subdomain.workers.dev/ws');
 const attacks = [];
 
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    
+
     if (data.prediction === 'attack') {
         attacks.push(data);
         console.log(`Attack detected from ${data.ip}: ${data.path}`);
     }
 };
+```
 
+### Example 2: Query historical data
 
-Example 2: Query historical data
-
+```javascript
 async function getAttacks(startDate, endDate) {
-    const response = await fet
+    const response = await fetch(
+        `/api/traffic?prediction=attack&from=${startDate}&to=${endDate}`
+    );
+    const data = await response.json();
+    return data;
+}
+```

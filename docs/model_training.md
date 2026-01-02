@@ -1,30 +1,33 @@
-MODEL TRAINING GUIDE
+# Model Training Guide
 
 This guide covers training your ML model on collected honeypot data and deploying it to Workers AI.
 
-OVERVIEW
+## Overview
 
 The training pipeline:
-1. COLLECT data from your honeypot (Friday night -> Saturday morning)
-2. EXPORT data from D1
-3. FEATURE ENGINEERING and preprocessing
-4. TRAIN model (Random Forest -> XGBoost -> Neural Net)
-5. EXPORT to ONNX format
-6. DEPLOY to Workers AI
-7. UPDATE classification logic
 
-PREREQUISITES
+1. **COLLECT** data from your honeypot (Friday night → Saturday morning)
+2. **EXPORT** data from D1
+3. **FEATURE ENGINEERING** and preprocessing
+4. **TRAIN** model (Random Forest → XGBoost → Neural Net)
+5. **EXPORT** to ONNX format
+6. **DEPLOY** to Workers AI
+7. **UPDATE** classification logic
 
+## Prerequisites
+
+```bash
 pip install pandas scikit-learn xgboost onnx onnxruntime
+```
 
+## Step 1: Export Training Data
 
-STEP 1: EXPORT TRAINING DATA
+**Export data from D1:**
 
-Export data from D1:
-
+```bash
 # Export to CSV
 wrangler d1 execute axon-db --command="
-SELECT 
+SELECT
     timestamp,
     path,
     method,
@@ -39,10 +42,11 @@ WHERE timestamp > $(date -d '24 hours ago' +%s)000
 
 # Convert to CSV using Python
 python scripts/json_to_csv.py training_data.json training_data.csv
+```
 
+**scripts/json_to_csv.py:**
 
-scripts/json_to_csv.py:
-
+```python
 import json
 import pandas as pd
 import sys
@@ -53,12 +57,13 @@ with open(sys.argv[1]) as f:
 df = pd.DataFrame(data[0]['results'])
 df.to_csv(sys.argv[2], index=False)
 print(f"Exported {len(df)} rows to {sys.argv[2]}")
+```
 
+## Step 2: Feature Engineering
 
-STEP 2: FEATURE ENGINEERING
+**scripts/prepare_features.py:**
 
-scripts/prepare_features.py:
-
+```python
 import pandas as pd
 import numpy as np
 from urllib.parse import urlparse
@@ -75,46 +80,46 @@ def calculate_entropy(s):
 
 def extract_features(df):
     """Extract ML features from raw data"""
-    
+
     features = pd.DataFrame()
-    
+
     # Path-based features
     features['path_length'] = df['path'].str.len()
     features['path_entropy'] = df['path'].apply(calculate_entropy)
     features['has_query_params'] = df['path'].str.contains('\?').astype(int)
     features['num_slashes'] = df['path'].str.count('/')
     features['num_dots'] = df['path'].str.count('\.')
-    
+
     # Suspicious path patterns
     attack_patterns = ['admin', 'wp-', 'php', '.env', 'sql', 'etc/passwd']
     for pattern in attack_patterns:
         features[f'has_{pattern}'] = df['path'].str.contains(
             pattern, case=False, na=False
         ).astype(int)
-    
+
     # Method
     features['method_get'] = (df['method'] == 'GET').astype(int)
     features['method_post'] = (df['method'] == 'POST').astype(int)
-    
+
     # User-Agent features
     features['ua_length'] = df['user_agent'].str.len()
     features['ua_is_bot'] = df['user_agent'].str.contains(
-        'bot|crawler|spider|curl|wget|python', 
+        'bot|crawler|spider|curl|wget|python',
         case=False, na=False
     ).astype(int)
     features['ua_is_browser'] = df['user_agent'].str.contains(
         'mozilla|chrome|firefox|safari',
         case=False, na=False
     ).astype(int)
-    
+
     # Cloudflare bot score (if available)
     if 'bot_score' in df.columns:
         features['bot_score'] = df['bot_score'].fillna(50)
-    
+
     # Country risk (simplified)
     high_risk_countries = ['CN', 'RU', 'KP', 'IR']
     features['high_risk_country'] = df['country'].isin(high_risk_countries).astype(int)
-    
+
     return features
 
 
@@ -130,17 +135,19 @@ y.to_csv('labels.csv', index=False)
 print(f"Features shape: {X.shape}")
 print(f"Attack rate: {y.mean():.2%}")
 print(f"\nFeatures:\n{X.head()}")
+```
 
+**Run feature engineering:**
 
-Run feature engineering:
-
+```bash
 python scripts/prepare_features.py
+```
 
+## Step 3: Train Model
 
-STEP 3: TRAIN MODEL
+**scripts/train_model.py:**
 
-scripts/train_model.py:
-
+```python
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -177,7 +184,7 @@ rf_model.fit(X_train, y_train)
 # Evaluate
 rf_pred = rf_model.predict(X_test)
 print("\nRandom Forest Results:")
-print(classification_report(y_test, rf_pred, 
+print(classification_report(y_test, rf_pred,
                           target_names=['Legit', 'Attack']))
 
 # Feature importance
@@ -217,17 +224,19 @@ print("Model saved to axon_model.pkl")
 # Confusion Matrix
 print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, xgb_pred))
+```
 
+**Train the model:**
 
-Train the model:
-
+```bash
 python scripts/train_model.py
+```
 
+## Step 4: Export to ONNX
 
-STEP 4: EXPORT TO ONNX
+**scripts/export_onnx.py:**
 
-scripts/export_onnx.py:
-
+```python
 import pickle
 import onnx
 from skl2onnx import convert_sklearn
@@ -271,33 +280,36 @@ print("ONNX model verified successfully!")
 with open('feature_names.txt', 'w') as f:
     f.write('\n'.join(feature_names))
 print(f"Feature names saved ({num_features} features)")
+```
 
+**Export to ONNX:**
 
-Export to ONNX:
-
+```bash
 pip install skl2onnx onnx
 python scripts/export_onnx.py
+```
 
+## Step 5: Deploy to Workers AI
 
-STEP 5: DEPLOY TO WORKERS AI
+### Upload Model
 
-Upload Model
-
+```bash
 # Upload ONNX model to Workers AI
 wrangler ai models upload axon_model.onnx \
   --name axon-classifier \
   --type onnx
 
 # Note the model ID (e.g., @cf/your-account/axon-classifier)
+```
 
+### Update Classification Logic
 
-Update Classification Logic
+**src/honeypot.py:**
 
-src/honeypot.py:
-
+```python
 async def classify_with_workers_ai(features, env):
     """Classify using deployed ML model"""
-    
+
     # Prepare features in correct order
     feature_vector = [
         features['path_length'],
@@ -309,12 +321,12 @@ async def classify_with_workers_ai(features, env):
         features['has_wp-'],
         # ... all other features in same order as training
     ]
-    
+
     # Run inference
     result = await env.AI.run('@cf/your-account/axon-classifier', {
         'input': feature_vector
     })
-    
+
     return {
         'label': 'attack' if result['prediction'] > 0.5 else 'legit',
         'confidence': abs(result['prediction'] - 0.5) * 2,  # Scale to 0-1
@@ -324,24 +336,26 @@ async def classify_with_workers_ai(features, env):
 
 async def handle_honeypot_request(request, env):
     # ... extract features ...
-    
+
     # Classify with ML model
     prediction = await classify_with_workers_ai(features, env)
-    
+
     # ... rest of logging and broadcasting ...
+```
 
+**Deploy updated worker:**
 
-Deploy updated worker:
-
+```bash
 uv run pywrangler deploy
+```
 
+## Step 6: Evaluate in Production
 
-STEP 6: EVALUATE IN PRODUCTION
-
-A/B Testing
+### A/B Testing
 
 Run both heuristic and ML model, compare results:
 
+```python
 # Get both predictions
 heuristic_pred = classify_heuristic(features)
 ml_pred = await classify_with_workers_ai(features, env)
@@ -354,13 +368,14 @@ await log_predictions(features, {
 
 # Use ML prediction for actual classification
 return ml_pred
+```
 
+### Monitor Performance
 
-Monitor Performance
-
+```bash
 # Check accuracy over time
 wrangler d1 execute axon-db --command="
-SELECT 
+SELECT
     DATE(created_at) as date,
     prediction,
     AVG(confidence) as avg_confidence,
@@ -370,42 +385,46 @@ WHERE created_at > datetime('now', '-7 days')
 GROUP BY date, prediction
 ORDER BY date DESC
 "
+```
 
+## Model Iteration
 
-MODEL ITERATION
-
-Collect More Data
+### Collect More Data
 
 Let it run for a few days, then:
 
+```bash
 # Export larger dataset
 wrangler d1 execute axon-db --command="
-SELECT * FROM traffic 
+SELECT * FROM traffic
 WHERE timestamp > $(date -d '7 days ago' +%s)000
 " --json > training_data_v2.json
+```
 
+### Retrain
 
-Retrain
-
+```bash
 python scripts/prepare_features.py
 python scripts/train_model.py
 python scripts/export_onnx.py
 wrangler ai models upload axon_model.onnx --name axon-classifier-v2
+```
 
-
-Deploy New Version
+### Deploy New Version
 
 Update model name in code and deploy:
 
+```bash
 uv run pywrangler deploy
+```
 
-
-ADVANCED: NEURAL NETWORK
+## Advanced: Neural Network
 
 For even better performance, try a simple neural network:
 
-scripts/train_neural_net.py:
+**scripts/train_neural_net.py:**
 
+```python
 import tensorflow as tf
 from tensorflow import keras
 import pandas as pd
@@ -455,26 +474,26 @@ print(f"Recall: {recall:.4f}")
 # Save
 model.save('axon_nn_model.h5')
 print("Model saved to axon_nn_model.h5")
+```
 
+**Convert to ONNX:**
 
-Convert to ONNX:
-
+```bash
 pip install tf2onnx
 python -m tf2onnx.convert \
   --saved-model axon_nn_model.h5 \
   --output axon_nn_model.onnx
+```
 
+## Tips for Good Models
 
-TIPS FOR GOOD MODELS
+1. **Balanced Dataset:** Ensure roughly equal attacks and legit traffic
+2. **Feature Engineering:** More features ≠ better (focus on meaningful ones)
+3. **Cross-Validation:** Use k-fold CV to validate model
+4. **Regularization:** Prevent overfitting with dropout/L2
+5. **Hyperparameter Tuning:** Use grid search for best params
 
-1. Balanced Dataset: Ensure roughly equal attacks and legit traffic
-2. Feature Engineering: More features != better (focus on meaningful ones)
-3. Cross-Validation: Use k-fold CV to validate model
-4. Regularization: Prevent overfitting with dropout/L2
-5. Hyperparameter Tuning: Use grid search for best params
+## Next Steps
 
-
-NEXT STEPS
-
-- Deployment Guide (deployment.txt) - Deploy to production
-- API Reference (api-reference.txt) - Understand the API
+- [Deployment Guide](deployment.md) - Deploy to production
+- [API Reference](api-reference.md) - Understand the API

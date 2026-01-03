@@ -151,7 +151,7 @@
 
                 ws.onmessage = (event) => {
                     const data = JSON.parse(event.data);
-                    handleTrafficUpdate(data);
+                    handleMessage(data);
                 };
 
                 ws.onclose = () => {
@@ -167,6 +167,39 @@
                 ws.onerror = (error) => {
                     console.error("WebSocket error:", error);
                 };
+            }
+
+            function handleMessage(data) {
+                // Handle different message types
+                switch (data.type) {
+                    case "connected":
+                        handleConnectionConfirmation(data);
+                        break;
+                    case "classification":
+                        handleTrafficUpdate(data);
+                        break;
+                    case "pong":
+                        console.log("Pong received");
+                        break;
+                    case "stats":
+                        console.log("Stats:", data);
+                        break;
+                    case "error":
+                        console.error("Server error:", data.message);
+                        break;
+                    default:
+                        // Legacy messages without type field
+                        if (data.prediction) {
+                            handleTrafficUpdate(data);
+                        }
+                }
+            }
+
+            function handleConnectionConfirmation(data) {
+                console.log("Connected with session ID:", data.session_id);
+                // Clear the "waiting for traffic" message
+                const feed = document.getElementById("feed");
+                feed.innerHTML = "";
             }
 
             function handleTrafficUpdate(data) {

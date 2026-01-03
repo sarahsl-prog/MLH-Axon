@@ -18,6 +18,4 @@ binding = "AI"
 [text_blobs]
 DASHBOARD = "public/dashboard.html"
 
-# Serve the dashboard
-[[routes]]
-pattern = "axon.yourdomain.workers.dev/*"
+

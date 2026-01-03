@@ -16,3 +16,5 @@ node_modules/
 .wrangler/
 .cache/
 .pytest_cache/
+venv/
+ENV/

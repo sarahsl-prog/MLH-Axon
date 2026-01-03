@@ -1,0 +1,4 @@
+# Requirements for network traffic capture script
+scapy>=2.5.0
+geoip2>=4.7.0
+maxminddb-geolite2>=2023.0.0

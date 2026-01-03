@@ -122,14 +122,14 @@ class TrafficMonitor(DurableObject):
             if ws_id in self.session_ids:
                 del self.session_ids[ws_id]
 
-    async def broadcast(self, data):
+    async def broadcast(self, message):
         """
         Broadcast classification data to all connected dashboard clients
 
         Args:
-            data: Dictionary containing classification info (timestamp, path, prediction, etc.)
+            message: JSON string containing classification info (timestamp, path, prediction, etc.)
         """
-        message = json.dumps(data)
+        # Message is already serialized as JSON string from RPC call
         dead_sessions = []
 
         for session in self.sessions:

@@ -157,20 +157,20 @@ async def handle_honeypot_request(request, env):
     try:
         do_id = env.TRAFFIC_MONITOR.idFromName("global")
         stub = env.TRAFFIC_MONITOR.get(do_id)
-        await stub.broadcast(
-            {
-                "type": "classification",
-                "timestamp": features["timestamp"],
-                "path": features["path"],
-                "method": features["method"],
-                "ip": features["ip"],
-                "country": features["country"],
-                "user_agent": features["user_agent"],
-                "prediction": prediction["label"],
-                "confidence": round(prediction["confidence"], 2),
-                "bot_score": prediction["bot_score"],
-            }
-        )
+        # Serialize to JSON before RPC call to avoid DataCloneError
+        broadcast_data = json.dumps({
+            "type": "classification",
+            "timestamp": features["timestamp"],
+            "path": features["path"],
+            "method": features["method"],
+            "ip": features["ip"],
+            "country": features["country"],
+            "user_agent": features["user_agent"],
+            "prediction": prediction["label"],
+            "confidence": round(prediction["confidence"], 2),
+            "bot_score": prediction["bot_score"],
+        })
+        await stub.broadcast(broadcast_data)
     except Exception as e:
         print(f"Broadcast error: {e}")
 

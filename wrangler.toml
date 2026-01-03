@@ -2,17 +2,23 @@
 name = "my-axon"
 main = "src/worker.py"
 compatibility_flags = ["python_workers"]
-compatibility_date = "2022-07-12"
+compatibility_date = "2024-04-03"
 
 # Assets configuration for serving static files
 [assets]
 directory = "./public/"
 binding = "ASSETS"
 
-route = { pattern = "axon.sarahsl.workers.dev/*", zone_name = "workers.dev" } 
+route = { pattern = "axon.sarahsl.workers.dev/*", zone_name = "workers.dev" }
+
+# Durable Objects configuration
+[[durable_objects.bindings]]
+name = "TRAFFIC_MONITOR"
+class_name = "TrafficMonitor"
+script_name = "my-axon"
 
 [[d1_databases]]
-binding = "axon_db"
+binding = "DB"
 database_name = "axon-db"
 database_id = "c76c6bcb-76cb-40ff-b5c3-0d96f32f0597"
 

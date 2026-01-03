@@ -45,11 +45,11 @@ class TrafficMonitor(DurableObject):
             # Return client-side WebSocket with 101 status
             from js import Response
 
-            return Response.new(None, {"status": 101, "webSocket": client})
+            return Response.new(None, status=101, webSocket=client)
 
         from js import Response
 
-        return Response.new("Expected WebSocket", {"status": 400})
+        return Response.new("Expected WebSocket", status=400)
 
     async def webSocketMessage(self, ws, message):
         """Handle incoming WebSocket messages from dashboard"""

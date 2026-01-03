@@ -1,6 +1,6 @@
 import json
 
-from js import Date, Response
+from js import Date, Response, Headers
 
 
 def extract_features(request):
@@ -175,6 +175,5 @@ async def handle_honeypot_request(request, env):
         print(f"Broadcast error: {e}")
 
     # Return boring response (don't tip off attackers)
-    return Response.new(
-        "OK", {"status": 200, "headers": {"Content-Type": "text/plain"}}
-    )
+    headers = Headers.new({"Content-Type": "text/plain"}.items())
+    return Response.new("OK", status=200, headers=headers)

@@ -1,6 +1,6 @@
 import json
 
-from js import Date, Response
+from js import Date, Response, Headers
 
 
 async def get_stats(env):
@@ -83,10 +83,8 @@ async def get_stats(env):
             "timestamp": Date.now()
         }
 
-        return Response.new(
-            json.dumps(stats),
-            {"headers": {"Content-Type": "application/json"}}
-        )
+        headers = Headers.new({"Content-Type": "application/json"}.items())
+        return Response.new(json.dumps(stats), headers=headers)
 
     except Exception as e:
         print(f"Error getting stats: {e}")
@@ -96,7 +94,5 @@ async def get_stats(env):
                 "message": str(e)
             }
         })
-        return Response.new(
-            error_response,
-            {"status": 500, "headers": {"Content-Type": "application/json"}}
-        )
+        headers = Headers.new({"Content-Type": "application/json"}.items())
+        return Response.new(error_response, status=500, headers=headers)

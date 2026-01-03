@@ -214,3 +214,8 @@ async def on_fetch(request, env):
     from honeypot import handle_honeypot_request
 
     return await handle_honeypot_request(request, env)
+
+
+# Explicit exports for Cloudflare Workers runtime
+# The TrafficMonitor class must be explicitly exported for Durable Objects binding
+__all__ = ["on_fetch", "TrafficMonitor"]

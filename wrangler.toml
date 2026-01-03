@@ -17,6 +17,11 @@ name = "TRAFFIC_MONITOR"
 class_name = "TrafficMonitor"
 script_name = "my-axon"
 
+# Durable Objects migrations
+[[migrations]]
+tag = "v1"
+new_classes = ["TrafficMonitor"]
+
 [[d1_databases]]
 binding = "DB"
 database_name = "axon-db"

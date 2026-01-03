@@ -1,21 +1,15 @@
-name = "axon"
+# Top-level configuration
+name = "my-axon"
 main = "src/worker.py"
-compatibility_date = "2024-04-01"
 compatibility_flags = ["python_workers"]
+compatibility_date = "2022-07-12"
 
-[[durable_objects.bindings]]
-name = "TRAFFIC_MONITOR"
-class_name = "TrafficMonitor"
-script_name = "axon"
-
-[[migrations]]
-tag = "v1"
-new_classes = ["TrafficMonitor"]
+route = { pattern = "axon.sarahsl.workers.dev/*", zone_name = "workers.dev" } 
 
 [[d1_databases]]
-binding = "DB"
+binding = "axon_db"
 database_name = "axon-db"
-database_id = "your-db-id-here"
+database_id = "c76c6bcb-76cb-40ff-b5c3-0d96f32f0597"
 
 [ai]
 binding = "AI"

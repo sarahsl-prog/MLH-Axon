@@ -69,21 +69,16 @@ async def on_fetch(request, env):
 
     # Serve dashboard HTML
     if path == "" or path == "dashboard":
-        # Try to get dashboard HTML from environment binding first, then fallback to loaded HTML
-        dashboard_html = None
-        if hasattr(env, "DASHBOARD"):
-            dashboard_html = env.DASHBOARD
-            print("Using dashboard from env.DASHBOARD binding")
-        elif DASHBOARD_HTML is not None:
-            dashboard_html = DASHBOARD_HTML
-            print("Using dashboard from module-level load")
-        else:
+        # Load dashboard HTML from module-level variable
+        if DASHBOARD_HTML is None:
             headers = Headers.new({"Content-Type": "text/plain"}.items())
             return Response.new(
                 "Dashboard HTML not loaded. Please ensure public/dashboard.html exists.",
                 status=500,
                 headers=headers
             )
+
+        dashboard_html = DASHBOARD_HTML
 
         try:
             # Inject the WebSocket URL dynamically

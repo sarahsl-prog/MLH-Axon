@@ -4,6 +4,12 @@ main = "src/worker.py"
 compatibility_flags = ["python_workers"]
 compatibility_date = "2022-07-12"
 
+# Include HTML files as Text modules
+[[rules]]
+type = "Text"
+globs = ["**/*.html"]
+fallthrough = true
+
 route = { pattern = "axon.sarahsl.workers.dev/*", zone_name = "workers.dev" } 
 
 [[d1_databases]]
@@ -13,9 +19,5 @@ database_id = "c76c6bcb-76cb-40ff-b5c3-0d96f32f0597"
 
 [ai]
 binding = "AI"
-
-# Dashboard HTML as text binding
-[text_blobs]
-DASHBOARD = "public/dashboard.html"
 
 

@@ -13,3 +13,6 @@ downloads/
 eggs/
 Axon/
 node_modules/
+.wrangler/
+.cache/
+.pytest_cache/

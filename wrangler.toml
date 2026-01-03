@@ -4,11 +4,10 @@ main = "src/worker.py"
 compatibility_flags = ["python_workers"]
 compatibility_date = "2022-07-12"
 
-# Include HTML files as Text modules
-[[rules]]
-type = "Text"
-globs = ["**/*.html"]
-fallthrough = true
+# Assets configuration for serving static files
+[assets]
+directory = "./public/"
+binding = "ASSETS"
 
 route = { pattern = "axon.sarahsl.workers.dev/*", zone_name = "workers.dev" } 
 

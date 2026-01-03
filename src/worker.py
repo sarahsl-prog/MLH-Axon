@@ -1,41 +1,8 @@
 import json
-import os
 
-from js import Response, Headers
+from js import Response, Headers, Request
 
 from traffic_monitor import TrafficMonitor  # Import the Durable Object
-
-
-# Load dashboard HTML at module level
-DASHBOARD_HTML = None
-try:
-    # Get the directory of this file
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Go up one level to project root and into public
-    dashboard_path = os.path.join(current_dir, "..", "public", "dashboard.html")
-
-    # Try alternate paths if first doesn't work
-    possible_paths = [
-        dashboard_path,
-        os.path.join(current_dir, "public", "dashboard.html"),
-        "public/dashboard.html",
-        "../public/dashboard.html",
-    ]
-
-    for path in possible_paths:
-        try:
-            if os.path.exists(path):
-                with open(path, "r") as f:
-                    DASHBOARD_HTML = f.read()
-                print(f"Loaded dashboard from: {path}")
-                break
-        except Exception:
-            continue
-
-    if DASHBOARD_HTML is None:
-        print("Warning: Could not load dashboard.html from any path")
-except Exception as e:
-    print(f"Error loading dashboard HTML: {e}")
 
 
 async def on_fetch(request, env):
@@ -69,20 +36,15 @@ async def on_fetch(request, env):
 
     # Serve dashboard HTML
     if path == "" or path == "dashboard":
-        # Load dashboard HTML from module-level variable
-        if DASHBOARD_HTML is None:
-            headers = Headers.new({"Content-Type": "text/plain"}.items())
-            return Response.new(
-                "Dashboard HTML not loaded. Please ensure public/dashboard.html exists.",
-                status=500,
-                headers=headers
-            )
-
-        dashboard_html = DASHBOARD_HTML
-
         try:
+            # Fetch dashboard HTML from ASSETS binding
+            dashboard_request = Request.new(f"{url.split('?')[0].rstrip('/')}/dashboard.html")
+            dashboard_response = await env.ASSETS.fetch(dashboard_request)
+
+            # Read the HTML content
+            dashboard_html = await dashboard_response.text()
+
             # Inject the WebSocket URL dynamically
-            # Extract the host from the request URL
             from urllib.parse import urlparse
             parsed_url = urlparse(url)
             ws_protocol = "wss" if parsed_url.scheme == "https" else "ws"

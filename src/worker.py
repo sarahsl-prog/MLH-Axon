@@ -80,9 +80,12 @@ async def on_fetch(request, env):
             dashboard_html = DASHBOARD_HTML
             print("Using dashboard from module-level load")
         else:
+            from js import Object
+            headers = Object.new()
+            headers["Content-Type"] = "text/plain"
             return Response.new(
                 "Dashboard HTML not loaded. Please ensure public/dashboard.html exists.",
-                {"status": 500, "headers": {"Content-Type": "text/plain"}}
+                {"status": 500, "headers": headers}
             )
 
         try:
@@ -99,12 +102,20 @@ async def on_fetch(request, env):
                 ws_url
             )
 
-            return Response.new(html, {"headers": {"Content-Type": "text/html"}})
+            # Create response with proper headers
+            from js import Object
+            headers = Object.new()
+            headers["Content-Type"] = "text/html; charset=utf-8"
+
+            return Response.new(html, {"status": 200, "headers": headers})
         except Exception as e:
             print(f"Error serving dashboard: {e}")
+            from js import Object
+            headers = Object.new()
+            headers["Content-Type"] = "text/plain"
             return Response.new(
                 f"Error loading dashboard: {str(e)}",
-                {"status": 500, "headers": {"Content-Type": "text/plain"}}
+                {"status": 500, "headers": headers}
             )
 
     # Everything else is honeypot traffic

@@ -20,6 +20,10 @@ database_id = "your-db-id-here"
 [ai]
 binding = "AI"
 
+# Dashboard HTML as text binding
+[text_blobs]
+DASHBOARD = "public/dashboard.html"
+
 # Serve the dashboard
 [[routes]]
 pattern = "axon.yourdomain.workers.dev/*"

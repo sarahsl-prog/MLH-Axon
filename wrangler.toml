@@ -10,3 +10,14 @@ route = { pattern = "axon.sarahsl.workers.dev/*", zone_name = "workers.dev" }
 binding = "axon_db"
 database_name = "axon-db"
 database_id = "c76c6bcb-76cb-40ff-b5c3-0d96f32f0597"
+
+[ai]
+binding = "AI"
+
+# Dashboard HTML as text binding
+[text_blobs]
+DASHBOARD = "public/dashboard.html"
+
+# Serve the dashboard
+[[routes]]
+pattern = "axon.yourdomain.workers.dev/*"

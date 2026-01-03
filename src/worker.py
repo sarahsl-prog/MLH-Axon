@@ -1,7 +1,7 @@
 import json
 import os
 
-from js import Response
+from js import Response, Headers
 
 from traffic_monitor import TrafficMonitor  # Import the Durable Object
 
@@ -53,10 +53,8 @@ async def on_fetch(request, env):
             "timestamp": Date.now(),
             "version": "1.0.0"
         })
-        return Response.new(
-            health_data,
-            {"headers": {"Content-Type": "application/json"}}
-        )
+        headers = Headers.new({"Content-Type": "application/json"}.items())
+        return Response.new(health_data, headers=headers)
 
     # Stats API endpoint
     if "api/stats" in url:
@@ -80,9 +78,11 @@ async def on_fetch(request, env):
             dashboard_html = DASHBOARD_HTML
             print("Using dashboard from module-level load")
         else:
+            headers = Headers.new({"Content-Type": "text/plain"}.items())
             return Response.new(
                 "Dashboard HTML not loaded. Please ensure public/dashboard.html exists.",
-                {"status": 500, "headers": {"Content-Type": "text/plain"}}
+                status=500,
+                headers=headers
             )
 
         try:
@@ -100,18 +100,15 @@ async def on_fetch(request, env):
             )
 
             # Return HTML response with proper content type
-            return Response.new(
-                html,
-                {
-                    "status": 200,
-                    "headers": {"Content-Type": "text/html; charset=utf-8"}
-                }
-            )
+            headers = Headers.new({"Content-Type": "text/html; charset=utf-8"}.items())
+            return Response.new(html, status=200, headers=headers)
         except Exception as e:
             print(f"Error serving dashboard: {e}")
+            headers = Headers.new({"Content-Type": "text/plain"}.items())
             return Response.new(
                 f"Error loading dashboard: {str(e)}",
-                {"status": 500, "headers": {"Content-Type": "text/plain"}}
+                status=500,
+                headers=headers
             )
 
     # Everything else is honeypot traffic

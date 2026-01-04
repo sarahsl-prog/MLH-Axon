@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="../public/Axon_logo.jpg" alt="Axon Logo" width="300"/>
+</div>
+
 # Development Guide
 
 This guide covers local development, testing, and customization of Axon.

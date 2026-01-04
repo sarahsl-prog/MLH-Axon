@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="public/Axon_logo.jpg" alt="Axon Logo" width="300"/>
+</div>
+
 # Axon Deployment Guide
 
 Complete guide to deploying Axon to Cloudflare Workers.

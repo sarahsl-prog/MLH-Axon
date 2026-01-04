@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="../public/Axon_logo.jpg" alt="Axon Logo" width="300"/>
+</div>
+
 # Deployment Guide
 
 This guide covers deploying Axon to production and configuring it for optimal performance.

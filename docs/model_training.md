@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="../public/Axon_logo.jpg" alt="Axon Logo" width="300"/>
+</div>
+
 # Model Training Guide
 
 This guide covers training your ML model on collected honeypot data and deploying it to Workers AI.

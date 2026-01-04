@@ -1,0 +1,330 @@
+[
+  {
+    "results": [
+      {
+        "timestamp": 1767481439086,
+        "path": "http://localhost:8788/wp-admin/admin.php",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767481534006,
+        "path": "http://localhost:8788/test-attack",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767481681800,
+        "path": "http://localhost:8788/test-attack",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767481725956,
+        "path": "http://localhost:8788/test-attack",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767481878356,
+        "path": "http://localhost:8788/test-attack",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767481996575,
+        "path": "http://localhost:8788/test-attack",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767482026003,
+        "path": "http://localhost:8788/wp-admin/admin.php",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767482065024,
+        "path": "http://localhost:8788/test-attack",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767482641126,
+        "path": "http://localhost:8788/wp-admin/admin.php",
+        "method": "GET",
+        "country": "",
+        "user_agent": "python-requests/2.32.5",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767482855536,
+        "path": "http://localhost:8788/wp-admin/admin.php",
+        "method": "GET",
+        "country": "",
+        "user_agent": "python-requests/2.32.5",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010019,
+        "path": "http://localhost:8788/api/users",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010020,
+        "path": "http://localhost:8788/wp-admin/admin.php",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010031,
+        "path": "http://localhost:8788/wp-admin/admin.php",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010032,
+        "path": "http://localhost:8788/api/users",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010050,
+        "path": "http://localhost:8788/api/users",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010052,
+        "path": "http://localhost:8788/api/users",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010054,
+        "path": "http://localhost:8788/wp-admin/admin.php",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010055,
+        "path": "http://localhost:8788/wp-admin/admin.php",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010058,
+        "path": "http://localhost:8788/api/users",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "legit",
+        "confidence": 0.3,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483010059,
+        "path": "http://localhost:8788/wp-admin/admin.php",
+        "method": "GET",
+        "country": "",
+        "user_agent": "curl/8.5.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483067196,
+        "path": "http://localhost:8788/favicon.ico",
+        "method": "GET",
+        "country": "",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483069935,
+        "path": "http://localhost:8788/favicon.ico",
+        "method": "GET",
+        "country": "",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483070987,
+        "path": "http://localhost:8788/favicon.ico",
+        "method": "GET",
+        "country": "",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483071388,
+        "path": "http://localhost:8788/favicon.ico",
+        "method": "GET",
+        "country": "",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483072196,
+        "path": "http://localhost:8788/favicon.ico",
+        "method": "GET",
+        "country": "",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483072417,
+        "path": "http://localhost:8788/favicon.ico",
+        "method": "GET",
+        "country": "",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483279967,
+        "path": "http://dummy/cdn-cgi/ProxyWorker/pause",
+        "method": "GET",
+        "country": "",
+        "user_agent": "undici",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483280104,
+        "path": "http://dummy/cdn-cgi/ProxyWorker/pause",
+        "method": "GET",
+        "country": "",
+        "user_agent": "undici",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483282205,
+        "path": "http://dummy/cdn-cgi/ProxyWorker/play",
+        "method": "GET",
+        "country": "",
+        "user_agent": "undici",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483289319,
+        "path": "http://dummy/cdn-cgi/ProxyWorker/pause",
+        "method": "GET",
+        "country": "",
+        "user_agent": "undici",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483289439,
+        "path": "http://dummy/cdn-cgi/ProxyWorker/pause",
+        "method": "GET",
+        "country": "",
+        "user_agent": "undici",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      },
+      {
+        "timestamp": 1767483289456,
+        "path": "http://dummy/cdn-cgi/ProxyWorker/play",
+        "method": "GET",
+        "country": "",
+        "user_agent": "undici",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 99
+      }
+    ],
+    "success": true,
+    "meta": {
+      "duration": 1
+    }
+  }
+]

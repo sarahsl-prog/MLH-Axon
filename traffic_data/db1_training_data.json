@@ -1,0 +1,584 @@
+[
+  {
+    "results": [
+      {
+        "timestamp": 1767483524104,
+        "path": "https://my-axon.sarahsl.workers.dev/favicon.ico",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483670383,
+        "path": "https://my-axon.sarahsl.workers.dev/admin'%20UNION%20SELECT%20*%20FROM%20users--",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "sqlmap/1.0",
+        "label": "attack",
+        "confidence": 0.95,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483672209,
+        "path": "https://my-axon.sarahsl.workers.dev/about",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483675253,
+        "path": "https://my-axon.sarahsl.workers.dev/api/users",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483678898,
+        "path": "https://my-axon.sarahsl.workers.dev/api/users",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483682484,
+        "path": "https://my-axon.sarahsl.workers.dev/api/users",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483686495,
+        "path": "https://my-axon.sarahsl.workers.dev/blog/hello-world",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483691692,
+        "path": "https://my-axon.sarahsl.workers.dev/contact",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483695976,
+        "path": "https://my-axon.sarahsl.workers.dev/favicon.ico",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483697189,
+        "path": "https://my-axon.sarahsl.workers.dev/.git/config",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Googlebot/2.1",
+        "label": "attack",
+        "confidence": 0.65,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483700592,
+        "path": "https://my-axon.sarahsl.workers.dev/admin/login",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "python-requests/2.28.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483704240,
+        "path": "https://my-axon.sarahsl.workers.dev/about",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483707243,
+        "path": "https://my-axon.sarahsl.workers.dev/products/123",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483717435,
+        "path": "https://my-axon.sarahsl.workers.dev/etc/passwd",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)",
+        "label": "legit",
+        "confidence": 0.25,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483720530,
+        "path": "https://my-axon.sarahsl.workers.dev/.git/config",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "curl/7.68.0",
+        "label": "attack",
+        "confidence": 0.65,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483723398,
+        "path": "https://my-axon.sarahsl.workers.dev/shell.php",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "sqlmap/1.0",
+        "label": "legit",
+        "confidence": 0.2,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483725877,
+        "path": "https://my-axon.sarahsl.workers.dev/api/users",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483731880,
+        "path": "https://my-axon.sarahsl.workers.dev/blog/hello-world",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483733227,
+        "path": "https://my-axon.sarahsl.workers.dev/etc/passwd",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "sqlmap/1.0",
+        "label": "legit",
+        "confidence": 0.25,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483736213,
+        "path": "https://my-axon.sarahsl.workers.dev/contact",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483738544,
+        "path": "https://my-axon.sarahsl.workers.dev/api/posts",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483741462,
+        "path": "https://my-axon.sarahsl.workers.dev/api/posts",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483742765,
+        "path": "https://my-axon.sarahsl.workers.dev/about",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483745559,
+        "path": "https://my-axon.sarahsl.workers.dev/about",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483748345,
+        "path": "https://my-axon.sarahsl.workers.dev/about",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483752083,
+        "path": "https://my-axon.sarahsl.workers.dev/wp-admin/admin.php",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Googlebot/2.1",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483754191,
+        "path": "https://my-axon.sarahsl.workers.dev/contact",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483757079,
+        "path": "https://my-axon.sarahsl.workers.dev/contact",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483758697,
+        "path": "https://my-axon.sarahsl.workers.dev/etc/passwd",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "curl/7.68.0",
+        "label": "attack",
+        "confidence": 0.55,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483762734,
+        "path": "https://my-axon.sarahsl.workers.dev/admin/login",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "sqlmap/1.0",
+        "label": "legit",
+        "confidence": 0.2,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483767778,
+        "path": "https://my-axon.sarahsl.workers.dev/api/users",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483773524,
+        "path": "https://my-axon.sarahsl.workers.dev/contact",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483775903,
+        "path": "https://my-axon.sarahsl.workers.dev/etc/passwd",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)",
+        "label": "legit",
+        "confidence": 0.25,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483778393,
+        "path": "https://my-axon.sarahsl.workers.dev/favicon.ico",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483778847,
+        "path": "https://my-axon.sarahsl.workers.dev/contact",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483780572,
+        "path": "https://my-axon.sarahsl.workers.dev/api/users",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483782335,
+        "path": "https://my-axon.sarahsl.workers.dev/contact",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483785617,
+        "path": "https://my-axon.sarahsl.workers.dev/cgi-bin/admin",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "curl/7.68.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483787888,
+        "path": "https://my-axon.sarahsl.workers.dev/contact",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483791056,
+        "path": "https://my-axon.sarahsl.workers.dev/api/users",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483793731,
+        "path": "https://my-axon.sarahsl.workers.dev/wp-admin/admin.php",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Googlebot/2.1",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483798983,
+        "path": "https://my-axon.sarahsl.workers.dev/etc/passwd",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "curl/7.68.0",
+        "label": "attack",
+        "confidence": 0.55,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483801104,
+        "path": "https://my-axon.sarahsl.workers.dev/admin'%20UNION%20SELECT%20*%20FROM%20users--",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "curl/7.68.0",
+        "label": "attack",
+        "confidence": 1,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483802527,
+        "path": "https://my-axon.sarahsl.workers.dev/.git/config",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Googlebot/2.1",
+        "label": "attack",
+        "confidence": 0.65,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483806723,
+        "path": "https://my-axon.sarahsl.workers.dev/about",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483808513,
+        "path": "https://my-axon.sarahsl.workers.dev/shell.php",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "curl/7.68.0",
+        "label": "attack",
+        "confidence": 0.5,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483810001,
+        "path": "https://my-axon.sarahsl.workers.dev/products/123",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483814058,
+        "path": "https://my-axon.sarahsl.workers.dev/blog/hello-world",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483817008,
+        "path": "https://my-axon.sarahsl.workers.dev/api/users",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483819309,
+        "path": "https://my-axon.sarahsl.workers.dev/contact",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767483820743,
+        "path": "https://my-axon.sarahsl.workers.dev/blog/hello-world",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767484580809,
+        "path": "https://cybercrone.net/favicon.ico",
+        "method": "GET",
+        "country": "US",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767486815985,
+        "path": "http://cybercrone.net/admin/serverConfig.json",
+        "method": "GET",
+        "country": "BE",
+        "user_agent": "Mozilla/5.0 (Linux; Android 13; SM-A536E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36  uacq",
+        "label": "legit",
+        "confidence": 0.2,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767486820973,
+        "path": "https://cybercrone.net/admin/serverConfig.json",
+        "method": "GET",
+        "country": "BE",
+        "user_agent": "Mozilla/5.0 (Linux; Android 13; SM-A536E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36  uacq",
+        "label": "legit",
+        "confidence": 0.2,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767488159590,
+        "path": "http://cybercrone.net/favicon.ico",
+        "method": "GET",
+        "country": "SG",
+        "user_agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Mobile Safari/537.3",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      },
+      {
+        "timestamp": 1767488858427,
+        "path": "http://cybercrone.net/favicon.ico",
+        "method": "GET",
+        "country": "MD",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0",
+        "label": "legit",
+        "confidence": 0,
+        "bot_score": 50
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "ENAM",
+      "served_by_colo": "IAD",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.6089
+      },
+      "duration": 0.6089,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 40960,
+      "rows_read": 56,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

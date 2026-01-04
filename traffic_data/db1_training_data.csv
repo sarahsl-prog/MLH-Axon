@@ -1,0 +1,6 @@
+-- Axon Traffic Data Import
+-- Generated: unknown
+-- Records: 1
+
+INSERT INTO traffic (timestamp, path, method, ip, country, user_agent, prediction, confidence, bot_score) VALUES
+  (0, '/', 'GET', 'unknown', NULL, 'Unknown', 'unknown', 0.0, NULL);

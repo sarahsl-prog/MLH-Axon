@@ -10,7 +10,7 @@ import random
 from datetime import datetime
 
 # Your deployed worker URL
-WORKER_URL = "https://axon.sarahsl.workers.dev"
+WORKER_URL = "https://my-axon.sarahsl.workers.dev"
 
 # Legitimate request patterns
 LEGIT_PATHS = [

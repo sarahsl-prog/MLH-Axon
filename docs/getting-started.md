@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="../public/Axon_logo.jpg" alt="Axon Logo" width="300"/>
+</div>
+
 # Getting Started with Axon
 
 This guide will help you set up Axon from scratch and deploy your first honeypot.

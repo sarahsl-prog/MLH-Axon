@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="public/Axon_logo.jpg" alt="Axon Logo" width="400"/>
+</div>
+
 # ⚡ Axon
 
 AI-powered bot detection and traffic classification running entirely on Cloudflare's edge network.

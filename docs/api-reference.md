@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="../public/Axon_logo.jpg" alt="Axon Logo" width="300"/>
+</div>
+
 # API Reference
 
 This document describes all API endpoints, WebSocket protocol, and data formats used by Axon.

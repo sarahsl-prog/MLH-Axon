@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="../public/Axon_logo.jpg" alt="Axon Logo" width="300"/>
+</div>
+
 # Troubleshooting Guide
 
 Common issues and solutions for Axon deployment and operation.

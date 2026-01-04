@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="../public/Axon_logo.jpg" alt="Axon Logo" width="300"/>
+</div>
+
 # Axon Architecture
 
 This document describes the system architecture and design decisions behind Axon.

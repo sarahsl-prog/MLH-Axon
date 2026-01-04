@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="../public/Axon_logo.jpg" alt="Axon Logo" width="400"/>
+</div>
+
 # Axon Documentation
 
 Welcome to the Axon documentation! Axon is an AI-powered bot detection and traffic classification system running entirely on Cloudflare's edge network.

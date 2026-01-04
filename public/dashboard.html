@@ -23,14 +23,23 @@
                 border-bottom: 2px solid #00ff41;
             }
             .header-logo {
-                max-width: 200px;
-                height: auto;
-                margin-bottom: 15px;
+                height: 80px;
+                width: auto;
+                vertical-align: middle;
+                margin: 0 15px;
                 border-radius: 8px;
             }
             h1 {
                 font-size: 2.5em;
                 text-shadow: 0 0 10px #00ff41;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+            .lightning {
+                font-size: 80px;
+                line-height: 80px;
             }
             .stats {
                 display: grid;
@@ -104,8 +113,11 @@
         </div>
 
         <div class="header">
-            <img src="Axon_logo.jpg" alt="Axon Logo" class="header-logo" />
-            <h1>⚡ AXON ⚡</h1>
+            <h1>
+                <span class="lightning">⚡</span>
+                <img src="Axon_logo.jpg" alt="Axon" class="header-logo" />
+                <span class="lightning">⚡</span>
+            </h1>
             <p>Neural Traffic Classification System</p>
         </div>
 
